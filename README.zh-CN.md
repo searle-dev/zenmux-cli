@@ -2,9 +2,9 @@
 
 # zenmux-cli
 
-**Manage ZenMux accounts from the terminal — query quotas, switch API keys into Claude Code, and monitor usage in a live statusline.**
+**在终端管理 ZenMux 账号 — 查询配额、一键切换 Claude Code API Key、实时状态栏监控余量。**
 
-[中文文档](README.zh-CN.md)
+[English](README.md)
 
 ![Node.js](https://img.shields.io/badge/node-%3E%3D20.12-brightgreen?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
@@ -14,21 +14,21 @@
 
 ---
 
-## Install
+## 安装
 
 ```bash
 npm install -g .
-# or during development
+# 开发中可用
 npm link
 ```
 
 ---
 
-## Account Management
+## 账号管理
 
-### Add an account
+### 添加账号
 
-Keys are masked during input — only the first and last few characters are shown:
+输入 Key 时自动脱敏，仅显示头尾字符：
 
 ```
 $ zenmux account add personal
@@ -40,7 +40,7 @@ $ zenmux account add personal
   Set as active account.
 ```
 
-### List accounts
+### 查看账号列表
 
 ```
 $ zenmux account list
@@ -49,11 +49,11 @@ $ zenmux account list
   work     (no api_key)
 ```
 
-`*` marks the active account. Accounts without an `api_key` cannot be switched to.
+`*` 标记当前激活账号。未设置 `api_key` 的账号无法切换。
 
-### Switch account
+### 切换账号
 
-Without an argument, an interactive picker appears:
+不带参数时弹出交互式选择器：
 
 ```
 $ zenmux account use
@@ -66,13 +66,13 @@ $ zenmux account use
   Claude Code updated: ANTHROPIC_AUTH_TOKEN and ANTHROPIC_BASE_URL set.
 ```
 
-Or pass the name directly: `zenmux account use personal`
+也可直接传名称：`zenmux account use personal`
 
 ---
 
-## Status
+## 状态概览
 
-Shows all accounts in parallel, each as a card with quota and balance:
+并发查询所有账号，每个账号展示为独立卡片：
 
 ```
 $ zenmux status
@@ -102,9 +102,9 @@ $ zenmux status
 ╰──────────────────────────────────────────────────────────────────────────────╯
 ```
 
-Active account has a green border. If one account's API call fails, its card shows the error while others render normally.
+激活账号显示绿色边框。单个账号请求失败时，其卡片展示错误信息，其余账号正常渲染。
 
-Append `--json` to get raw data for scripting:
+加 `--json` 输出原始数据，方便脚本/Skill 调用：
 
 ```bash
 zenmux status --json | jq '.[0].subscription.quota_5_hour'
@@ -112,9 +112,9 @@ zenmux status --json | jq '.[0].subscription.quota_5_hour'
 
 ---
 
-## Claude Code Statusline
+## Claude Code 状态栏
 
-Install a live quota bar at the bottom of every Claude Code session:
+一键在每个 Claude Code 会话底部安装余量监控状态栏：
 
 ```
 $ zenmux statusline install
@@ -124,56 +124,56 @@ $ zenmux statusline install
   Reload Claude Code to activate.
 ```
 
-The statusline appears at the bottom of Claude Code and updates after every assistant message:
+安装后，状态栏显示在 Claude Code 底部，每次 AI 回复后自动刷新：
 
 ```
 ◉ personal · 5h ████░░░░ 43% 2h10m · 7d ████████░░░░░░░░ 78% · PAYG $85.80
 ```
 
-| Usage | Color |
-|-------|-------|
-| > 70% | Yellow |
-| > 90% | Red |
-| PAYG < $10 | Yellow |
+| 用量 | 颜色提示 |
+|------|---------|
+| > 70% | 黄色 |
+| > 90% | 红色 |
+| PAYG 余额 < $10 | 黄色 |
 
-Data is cached for 60 seconds — the first call per minute hits the API; subsequent calls within that window return instantly from cache.
+数据缓存 60 秒 — 每分钟第一次调用请求 API，窗口内后续调用直接读缓存，响应极快。
 
 ```bash
-zenmux statusline install   # install and pre-fill cache
-zenmux statusline remove    # remove from Claude Code
+zenmux statusline install   # 安装并预填充缓存
+zenmux statusline remove    # 从 Claude Code 移除
 ```
 
 ---
 
-## Other Query Commands
+## 其他查询命令
 
 ```bash
-zenmux flow-rate            # current Flow exchange rate
-zenmux payg                 # PAYG balance breakdown
-zenmux generation <id>      # single generation record detail
+zenmux flow-rate            # 当前 Flow 汇率
+zenmux payg                 # PAYG 余额明细
+zenmux generation <id>      # 查询单条生成记录
 ```
 
-All support `--json`.
+均支持 `--json`。
 
 ---
 
-## Shell Completion
+## 命令补全
 
 ```bash
-zenmux completion --install   # detect shell (zsh/bash/fish) and append to rc file
-source ~/.zshrc               # reload without restarting shell
+zenmux completion --install   # 自动检测 shell（zsh/bash/fish）并写入 rc 文件
+source ~/.zshrc               # 无需重启即可生效
 ```
 
-What gets completed:
+补全覆盖范围：
 
-| Input | Completions |
-|-------|-------------|
-| `zenmux <TAB>` | all top-level commands |
+| 输入 | 补全内容 |
+|------|---------|
+| `zenmux <TAB>` | 所有顶级命令 |
 | `zenmux account <TAB>` | `list` `add` `remove` `use` |
-| `zenmux account use <TAB>` | account names (live from config) |
-| `zenmux account remove <TAB>` | account names (live from config) |
+| `zenmux account use <TAB>` | 账号名（实时读取配置） |
+| `zenmux account remove <TAB>` | 账号名（实时读取配置） |
 
-Output the script manually:
+手动输出补全脚本：
 
 ```bash
 zenmux completion zsh
@@ -183,9 +183,9 @@ zenmux completion fish
 
 ---
 
-## Config
+## 配置
 
-Accounts are stored in `~/.zenmux-cli/config.json`:
+账号信息存储于 `~/.zenmux-cli/config.json`：
 
 ```json
 {
@@ -200,10 +200,10 @@ Accounts are stored in `~/.zenmux-cli/config.json`:
 }
 ```
 
-| Field | Required | Description |
-|-------|----------|-------------|
-| `management_key` | ✓ | Used for all quota / balance queries |
-| `api_key` | — | Required for `account use` and `generation` |
-| `base_url` | — | Defaults to `https://zenmux.ai/api/anthropic` |
+| 字段 | 必填 | 说明 |
+|------|------|------|
+| `management_key` | ✓ | 用于所有配额 / 余额查询 |
+| `api_key` | — | `account use` 和 `generation` 命令需要 |
+| `base_url` | — | 默认 `https://zenmux.ai/api/anthropic` |
 
-`zenmux account use <name>` writes `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_BASE_URL` into `~/.claude/settings.json`, merging safely with any existing content.
+执行 `zenmux account use <name>` 会将 `ANTHROPIC_AUTH_TOKEN` 和 `ANTHROPIC_BASE_URL` 安全合并写入 `~/.claude/settings.json`，不影响文件中其他已有配置。
