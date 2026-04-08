@@ -1,0 +1,31 @@
+{
+  "name": "zenmux-cli",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "bin": {
+    "zenmux": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^8.4.1",
+    "boxen": "^5.1.2",
+    "chalk": "^4.1.2",
+    "commander": "^14.0.3",
+    "ink": "^3.2.0",
+    "react": "^17.0.2",
+    "strip-ansi": "^6.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "@types/react": "^17.0.91",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  }
+}
